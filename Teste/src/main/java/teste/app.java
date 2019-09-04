@@ -42,13 +42,30 @@ public class app {
 		(new TouchAction(driver)).tap(626, 777).perform();
 
 	}
-
-	public static void deletarTarefa(AndroidDriver driver, int k) {
+	public static void deletarTarefaMVVM(AndroidDriver driver, int k) {
 		int w = 0;
-		criarTarefa(driver, k);
+		criarTarefaMVVM(driver,k);
 		String aux = "";
 		aux = JOptionPane.showInputDialog("Digite um número para deletar tarefa");
 		w = Integer.valueOf(aux);
+		 driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		(new TouchAction(driver)).tap(220, 343).perform();
+		 driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		System.out.println("deletando");
+		MobileElement el1 = (MobileElement) driver.findElementById("com.example.android.architecture.blueprints.tododatabinding.mock:id/menu_delete");
+		el1.click();
+	}
+
+	public static void deletarTarefa(AndroidDriver driver, int k) {
+		int w = 0;
+		//para MVP
+		criarTarefa(driver, k);
+		//para MVVM
+		//criarTarefaMVVM(driver,k);
+		String aux = "";
+		aux = JOptionPane.showInputDialog("Digite um número para deletar tarefa");
+		w = Integer.valueOf(aux);
+		 driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		(new TouchAction(driver)).tap(220, 343).perform();
 		 driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		MobileElement el4 = (MobileElement) driver
@@ -81,6 +98,7 @@ public class app {
 
 		(new TouchAction(driver)).tap(626, 1232).perform();
 		System.out.println("criar tarefa");
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		(new TouchAction(driver)).tap(62, 237).perform();
 		MobileElement el1 = (MobileElement) driver
 				.findElementById("com.example.android.architecture.blueprints.todomvp.mock:id/add_task_title");
@@ -96,6 +114,33 @@ public class app {
 		el3.sendKeys("Descrição do desempenho MVP");
 		(new TouchAction(driver)).tap(626, 783).perform();
 		System.out.println("Registrar");
+	}
+	public static void editarTarefaMVVM(AndroidDriver driver, int k) {
+		int w = 0;
+		criarTarefaMVVM(driver,k);
+		String aux = "";
+		aux = JOptionPane.showInputDialog("Digite um número para editar tarefa");
+		w = Integer.valueOf(aux);
+		(new TouchAction(driver)).tap(265, 346).perform();
+		System.out.println("preparando para editar");
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		(new TouchAction(driver)).tap(627, 1283).perform();
+		MobileElement el1 = (MobileElement) driver.findElementById("com.example.android.architecture.blueprints.tododatabinding.mock:id/add_task_title");
+		el1.click();
+		el1.sendKeys("Editar tarefa: "+w);
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		MobileElement el2 = (MobileElement) driver.findElementById("com.example.android.architecture.blueprints.tododatabinding.mock:id/add_task_description");
+		el2.click();
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		MobileElement el3 = (MobileElement) driver.findElementById("com.example.android.architecture.blueprints.tododatabinding.mock:id/add_task_description");
+		el3.click();
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		el3.sendKeys("Tarefa editada"+ w);
+		(new TouchAction(driver)).tap(627, 784).perform();
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		MobileElement el4 = (MobileElement) driver.findElementByAccessibilityId("Navegar para cima");
+		el4.click();
+		System.out.println("editado");
 	}
 
 	public static void main(String[] args) throws MalformedURLException {
@@ -129,8 +174,10 @@ public class app {
 		String aux = "";
 		int opcao2;
 		opcao = JOptionPane.showInputDialog("Digite 1 para criar tarefa\n" + "Digite 2 para criar a tarefa e deletar\n"
-				+ "Digite 3 para criar tarefa e editar tarefa\n"
-				+ "Digite 4 para criar tarefa do MVVM");
+				+ "Digite 3 para criar tarefa e editar tarefa com MVP\n"
+				+ "Digite 4 para criar tarefa do MVVM\n"
+				+ "Digite 5 para deletar tarefa do MVVM\n"
+				+ "Digite 6 para criar tarefa e editar tarefa com MVVM");
 		opcao2 = Integer.valueOf(opcao);
 
 		switch (opcao2) {
@@ -173,6 +220,22 @@ public class app {
 						.showInputDialog("Esperando um digito para incrementar a tarefa\n" + "digite -1 para fechar");
 				n = Integer.valueOf(aux);
 				criarTarefaMVVM(driver, n);
+	
+			}
+		case 5:
+			while (n != -1) {
+				aux = JOptionPane
+						.showInputDialog("Esperando um digito para incrementar a tarefa\n" + "digite -1 para fechar");
+				n = Integer.valueOf(aux);
+				deletarTarefaMVVM(driver, n);
+	
+			}
+		case 6:
+			while (n != -1) {
+				aux = JOptionPane
+						.showInputDialog("Esperando um digito para incrementar a tarefa\n" + "digite -1 para fechar");
+				n = Integer.valueOf(aux);
+				editarTarefaMVVM(driver, n);
 	
 			}
 
